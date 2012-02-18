@@ -3,10 +3,11 @@ package com.apihackday
 import grails.converters.JSON
 
 class TwilioSurveyController {
+	
+	def twilioService
 
     def getTwilioSurveyResults = {
-                def survey = Survey.get(1) as JSON
-                
+                def survey = twilioService.callTwilio()
                 render survey
-        }
+     }
 }
