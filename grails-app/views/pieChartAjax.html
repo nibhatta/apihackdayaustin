@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Survelio</title>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript">
+var chart;
+$(document).ready(function() {
+	chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'container',
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false
+		},
+		title: {
+			text: 'Survery 1 - Who rocks! '
+		},
+		tooltip: {
+			formatter: function() {
+				return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+			}
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					color: '#000000',
+					connectorColor: '#000000',
+					formatter: function() {
+						return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+					}
+				}
+			}
+		},
+		series: [{
+			type: 'pie',
+			name: 'Survey 1',
+			data: []
+		}]
+	});
+
+
+	function requestData() {
+	    $.ajax({
+	        url: '/api/surver/1',
+	        success: function(point) {
+	            var series = chart.series[0],
+	                shift = series.data.length > 20; // shift if the series is longer than 20
+
+	            // add the point
+	            chart.series[0].addPoint(point, true, shift);
+	            
+	            // call it again after one second
+	            setTimeout(requestData, 1000);    
+	        },
+	        cache: false
+	    });
+	}
+
+
+
+});
+
+		</script>
+	</head>
+	<body>
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/modules/exporting.js"></script>
+
+<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>
