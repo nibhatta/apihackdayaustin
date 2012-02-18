@@ -6,7 +6,7 @@ class Survey {
 	
 	String name
 	boolean isClosed
-	int surveyType = 1//1 is SelectFavorite, 2 is Scale
+	int surveyType = 1//1 is Vote, 2 is Scale
 	static belongsTo = [event: Event]
 	//Event event
 	
@@ -14,4 +14,8 @@ class Survey {
 		name(blank: false)
 		surveyType(min: 1, max: 2)
     }
+
+	String toString() {
+		return name
+	}
 }

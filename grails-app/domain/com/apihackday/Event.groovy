@@ -10,4 +10,8 @@ class Event {
     static constraints = {
 		name(blank: false)
     }
+
+	String toString() {
+		return name
+	}
 }
